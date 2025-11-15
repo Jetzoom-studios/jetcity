@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetcity - Micronation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid #667eea;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #667eea;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            background-color: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .flag-container {
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 3rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .flag-placeholder {
+            width: 300px;
+            height: 200px;
+            background: #ddd;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #999;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .flag-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .anthem-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .anthem-text {
+            font-style: italic;
+            color: #555;
+            line-height: 1.8;
+            margin: 1rem 0;
+            padding-left: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .audio-player {
+            margin: 1.5rem 0;
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .embassy-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .embassy-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .embassy-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .embassy-card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0.3rem 0;
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-style: italic;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #ccc;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #aaa;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+
+        .user-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 200;
+        }
+
+        .user-panel img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-info p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-email {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ee5a52;
+        }
+
+        .edit-mode {
+            outline: 2px dashed #667eea;
+            background-color: #f0f4ff;
+            cursor: text;
+            padding: 0.5rem;
+            border-radius: 3px;
+        }
+
+        .save-btn {
+            background: #51cf66;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #40c057;
+        }
+
+        .editable {
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .editable:hover {
+            background-color: #fafafa;
+        }
+
+        .edit-hint {
+            display: none;
+            font-size: 0.8rem;
+            color: #667eea;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+
+        .editable:hover .edit-hint {
+            display: block;
+        }
+
+        .edit-icon {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #667eea;
+            color: white;
+            padding: 3px 7px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .editable:hover .edit-icon {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="userPanel" class="user-panel" style="display: none;">
+        <img src="flag.png" alt="Jetcity Flag" style="width: 40px; height: 40px; object-fit: contain; border-radius: 3px;">
+        <div class="user-info">
+            <p class="user-name" id="userName">User</p>
+            <p class="user-email" id="userEmail">email@example.com</p>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    <header>
+        <h1>🏛️ Jetcity</h1>
+        <p>Welcome to the Official Website of the Jetcity Micronation</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#flag">Flag</a>
+        <a href="#anthem">Anthem</a>
+        <a href="#embassy">Embassy</a>
+        <a href="#information">Information</a>
+    </nav>
+
+    <main>
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Welcome to Jetcity</h2>
+            <p class="placeholder-text">
+                Welcome! Jetcity is an independent micronation dedicated to show micronations are real and freedom. 
+                This website serves as the official hub for all information about our nation, culture, and values.
+            </p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📅 Founded</h3>
+                    <p>2025</p>
+                </div>
+                <div class="info-card">
+                    <h3>👥 Population</h3>
+                    <p>007</p>
+                </div>
+                <div class="info-card">
+                    <h3>🌍 Capital</h3>
+                    <p>Aerohaven</p>
+                </div>
+                <div class="info-card">
+                    <h3>💬 Language</h3>
+                    <p>Jetzon</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flag Section -->
+        <section id="flag">
+            <h2>National Flag</h2>
+            <div class="flag-container">
+                <div>
+                    <p>The flag of Jetcity</p>
+                    <div class="flag-placeholder">
+                        <img src="flag.png" alt="Jetcity Flag">
+                    </div>
+                    <p class="placeholder-text">
+                        <strong>Flag Description:</strong> The Jetcity flag features Golden Crescent and Bird with a green backround. The crescent represents the 
+                        religion, Islam with the bird symolizing freedom and inspiorarion.
+
+
+
+
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anthem Section -->
+        <section id="anthem">
+            <h2>National Anthem</h2>
+            <div class="anthem-section">
+                <h3>Official Anthem: [Freedom speech Unity Anthem]</h3>
+                <p class="placeholder-text">
+                     composer was Jetzoom, it was written by Jetzoom, year made was 2025
+                </p>
+                <div class="audio-player">
+                    <p><strong>Listen to the National Anthem:</strong></p>
+                    <audio controls style="width: 100%;">
+                        <source src="Unity Anthem.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                <div class="anthem-text">
+                    <p>[NO LYRICS]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Embassy Section -->
+        <section id="embassy">
+            <h2>Diplomatic Missions & Embassies</h2>
+            <p class="placeholder-text">
+                Jetcity maintains diplomatic relations and embassies in the following locations:
+            </p>
+            <div class="embassy-section">
+                <div class="embassy-card">
+                    <h3>🏢 Main Embassy</h3>
+                    <p><strong>Location:</strong> Jeddah</p>
+                    <p><strong>Address:</strong> NO DATA </p>
+                    <p><strong>Contact:</strong> Sultaneshky02@gnail.com</p>
+                    <p><strong>Ambassador:</strong> Embassy Of Jetcity</p>
+                </div>
+                <div class="embassy-card">
+                    <h3>🏢 Regional Office</h3>
+                    <p><strong>Location:</strong> Jeddah, saudi arabia</p>
+                    <p><strong>Address:</strong> [N/A]</p>
+                    <p><strong>Contact:</strong> sultaneshky02@gmail.com</p>
+                    <p><strong>Director:</strong> Apply Passports Office of Jetcity</p>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information Section -->
+        <section id="information">
+            <h2>About Jetcity</h2>
+            
+            <h3 style="color: #667eea; margin-top: 1.5rem;">History</h3>
+            <p class="placeholder-text">
+            National Day: October 21st, First Citizen: November 11th, first President: November 13th.
+            </p>
+
+            <h3 style="color: #667eea; margin-top: 1.5rem;">Government</h3>
+            <p class="placeholder-text">
+                Executive Branch, Legislative Branch, Judicial Branch.
+                President, Vice President, Parliament Speaker, Chief Justice
+            </p>
+            </p>
+
+            <h3 style="color: #667eea; margin-top: 1.5rem;">Geography & Climate</h3>
+            <p class="placeholder-text">
+                Volume: ~3525 m³, located in central Jeddah, Saudi Arabia. Mostly sunny, arid climate with very hot summers and mild winters.
+            </p>
+
+            <h3 style="color: #667eea; margin-top: 1.5rem;">Economy</h3>
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <p style="margin-bottom: 1rem;"><strong>Official Currency: JCH (Jetcity Hearo)</strong></p>
+                <img src="currency.png" alt="JCH Currency Symbol" style="max-width: 200px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            </div>
+            </p>>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Jetcity Micronation. All rights reserved.</p>
+        <p>Official Website | <a href="mailto:contact@jetcity.example.com" style="color: #667eea; text-decoration: none;">Contact Us</a></p>
+    </footer>
+
+    <script>
+        // Authentication and Data Persistence System for Jetcity
+
+        // Check if user is authenticated
+        function checkAuthentication() {
+            const userToken = localStorage.getItem('jetcityUserToken');
+            const userData = localStorage.getItem('jetcityUserData');
+            
+            if (!userToken || !userData) {
+                // Not logged in, redirect to auth page
+                window.location.href = 'auth.html';
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Initialize user panel
+        function initializeUserPanel() {
+            const userData = JSON.parse(localStorage.getItem('jetcityUserData'));
+            
+            if (userData) {
+                document.getElementById('userPanel').style.display = 'flex';
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('userEmail').textContent = userData.email;
+            }
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('jetcityUserToken');
+                localStorage.removeItem('jetcityUserData');
+                window.location.href = 'auth.html';
+            }
+        }
+
+        // Save editable content
+        function saveContentToStorage(elementId, content) {
+            const userData = JSON.parse(localStorage.getItem('jetcityUserData'));
+            let userContent = JSON.parse(localStorage.getItem('jetcityUserContent_' + userData.id)) || {};
+            
+            userContent[elementId] = content;
+            localStorage.setItem('jetcityUserContent_' + userData.id, JSON.stringify(userContent));
+        }
+
+        // Load editable content
+        function loadContentFromStorage(elementId) {
+            const userData = JSON.parse(localStorage.getItem('jetcityUserData'));
+            const userContent = JSON.parse(localStorage.getItem('jetcityUserContent_' + userData.id)) || {};
+            
+            return userContent[elementId] || null;
+        }
+
+        // Make element editable
+        function makeEditable(element) {
+            if (!element) return;
+            
+            element.classList.add('editable');
+            element.contentEditable = true;
+            element.style.cursor = 'text';
+            
+            // Add save hint
+            const hint = document.createElement('div');
+            hint.className = 'edit-hint';
+            hint.textContent = '✏️ Click to edit, press Ctrl+S to save';
+            element.appendChild(hint);
+            
+            // Save on Ctrl+S
+            element.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    saveEdit(element);
+                }
+            });
+            
+            // Save on blur
+            element.addEventListener('blur', function() {
+                saveEdit(element);
+            });
+        }
+
+        // Save edited content
+        function saveEdit(element) {
+            const content = element.textContent.replace('✏️ Click to edit, press Ctrl+S to save', '').trim();
+            saveContentToStorage(element.id, content);
+            
+            // Show save notification
+            const originalBg = element.style.backgroundColor;
+            element.style.backgroundColor = '#d4edda';
+            setTimeout(() => {
+                element.style.backgroundColor = originalBg;
+            }, 1000);
+        }
+
+        // Initialize editable content on page load
+        function initializeEditableContent() {
+            const editableElements = document.querySelectorAll('[data-editable="true"]');
+            
+            editableElements.forEach(element => {
+                // Give it an ID if it doesn't have one
+                if (!element.id) {
+                    element.id = 'editable_' + Math.random().toString(36).substr(2, 9);
+                }
+                
+                // Load saved content
+                const savedContent = loadContentFromStorage(element.id);
+                if (savedContent) {
+                    element.textContent = savedContent;
+                }
+                
+                // Make it editable
+                makeEditable(element);
+            });
+        }
+
+        // Initialize everything on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (checkAuthentication()) {
+                initializeUserPanel();
+                initializeEditableContent();
+            }
+        });
+
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const editableElements = document.querySelectorAll('.editable');
+            editableElements.forEach(element => {
+                const content = element.textContent.replace('✏️ Click to edit, press Ctrl+S to save', '').trim();
+                if (content) {
+                    saveContentToStorage(element.id, content);
+                }
+            });
+        }, 30000);
+    </script>
+</body>
+</html>
