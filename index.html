@@ -4,13 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="flag.png">
-    <link rel="shortcut icon" href="flag.png">
-    <link rel="apple-touch-icon" href="flag.png">
-    <!-- Project-root absolute path (GitHub Pages project site). Replace 'jetcity' if your repo name differs -->
-    <link rel="icon" type="image/png" href="/jetcity/flag.png">
-    <!-- Cache-busting fallback -->
-    <link rel="icon" href="flag.png?v=2">
-    <title>Jetcity - Sign In</title>
+    <title>Jetcity - Micronation</title>
     <style>
         * {
             margin: 0;
@@ -20,28 +14,75 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .auth-container {
-            background: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 90%;
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 2rem;
             text-align: center;
-            animation: slideUp 0.5s ease;
+            border-bottom: 3px solid #667eea;
         }
 
-        @keyframes slideUp {
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #667eea;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            background-color: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -49,495 +90,557 @@
             }
         }
 
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 0.5rem;
+        section h2 {
+            color: #667eea;
             font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
         }
 
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1rem;
+        .flag-container {
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 3rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 2rem 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
+        .flag-placeholder {
+            width: 300px;
+            height: 200px;
             background: #ddd;
-        }
-
-        .divider span {
-            margin: 0 1rem;
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .google-btn {
+            margin: 1rem auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: white;
-            border: 2px solid #667eea;
-            border-radius: 8px;
+            border: 2px dashed #999;
+            border-radius: 5px;
             font-size: 1rem;
-            font-weight: 600;
-            color: #667eea;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 1rem;
-            width: 100%;
-        }
-
-        .google-btn:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .google-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .signup-prompt {
             color: #666;
-            font-size: 0.95rem;
-            margin-top: 1.5rem;
         }
 
-        .signup-prompt a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .signup-prompt a:hover {
-            text-decoration: underline;
-        }
-
-        .privacy-notice {
-            font-size: 0.8rem;
-            color: #999;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #eee;
-        }
-
-        .loading {
-            display: none;
-            font-size: 1.2rem;
-            color: #667eea;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background-color: #fee;
-            color: #c33;
-            padding: 1rem;
+        .flag-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
             border-radius: 5px;
-            margin-bottom: 1rem;
-            display: none;
         }
 
-        .success-message {
-            background-color: #efe;
-            color: #3c3;
-            padding: 1rem;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-            display: none;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
         }
 
-        .password-input-group {
-            display: none;
-            margin-top: 1rem;
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
         }
 
-        .password-input-group input {
-            width: 100%;
-            padding: 0.8rem;
+        .info-card h3 {
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
         }
 
-        .password-input-group button {
-            width: 100%;
-            padding: 0.8rem;
+        .info-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .anthem-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .anthem-text {
+            font-style: italic;
+            color: #555;
+            line-height: 1.8;
+            margin: 1rem 0;
+            padding-left: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .audio-player {
+            margin: 1.5rem 0;
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+
+        .embassy-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .embassy-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .embassy-card h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .embassy-card p {
+            font-size: 0.95rem;
+            color: #555;
+            margin: 0.3rem 0;
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-style: italic;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #ccc;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #aaa;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+
+        .user-panel {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 200;
+        }
+
+        .user-panel img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-info p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .user-email {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ee5a52;
+        }
+
+        .edit-mode {
+            outline: 2px dashed #667eea;
+            background-color: #f0f4ff;
+            cursor: text;
+            padding: 0.5rem;
+            border-radius: 3px;
+        }
+
+        .save-btn {
+            background: #51cf66;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            transition: 0.3s;
+        }
+
+        .save-btn:hover {
+            background: #40c057;
+        }
+
+        .editable {
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .editable:hover {
+            background-color: #fafafa;
+        }
+
+        .edit-hint {
+            display: none;
+            font-size: 0.8rem;
+            color: #667eea;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+
+        .editable:hover .edit-hint {
+            display: block;
+        }
+
+        .edit-icon {
+            display: none;
+            position: absolute;
+            top: 5px;
+            right: 5px;
             background: #667eea;
             color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
+            padding: 3px 7px;
+            border-radius: 3px;
+            font-size: 0.75rem;
             cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-            margin-bottom: 0.5rem;
         }
 
-        .password-input-group button:hover {
-            background: #5568d3;
-        }
-
-        .back-button {
-            background: #999;
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .back-button:hover {
-            background: #777;
-        }
-
-        .auth-mode-text {
-            color: #667eea;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-
-        .account-status {
-            padding: 0.8rem;
-            margin: 1rem 0;
-            border-radius: 5px;
-            display: none;
-        }
-
-        .account-exists {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
-        .account-new {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+        .editable:hover .edit-icon {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="logo">🏛️</div>
-        <h1>Welcome to Jetcity</h1>
-        <p class="subtitle">The Official Micronation Platform</p>
-
-        <div id="errorMessage" class="error-message"></div>
-        <div id="successMessage" class="success-message"></div>
-        <div id="accountStatus" class="account-status"></div>
-
-        <!-- Main Login Screen -->
-        <div id="mainScreen">
-            <button class="google-btn" onclick="startGoogleSignIn()">
-                <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Sign in with Google
-            </button>
-
-            <div class="divider">
-                <span>or</span>
-            </div>
-
-            <input type="email" id="emailInput" placeholder="Enter your email" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
-            <button onclick="checkEmailAndProceed()" style="width: 100%; padding: 0.8rem; background: #667eea; color: white; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; font-weight: 600; transition: 0.3s;">Continue with Email</button>
-
-            <div class="privacy-notice">
-                By signing in, you agree to our Terms of Service and Privacy Policy
-            </div>
+    <div id="userPanel" class="user-panel" style="display: none;">
+        <img src="flag.png" alt="Jetcity Flag" style="width: 40px; height: 40px; object-fit: contain; border-radius: 3px;">
+        <div class="user-info">
+            <p class="user-name" id="userName">User</p>
+            <p class="user-email" id="userEmail">email@example.com</p>
         </div>
-
-        <!-- Email Verification Screen -->
-        <div id="emailVerificationScreen" style="display: none;">
-            <h2 style="margin-bottom: 1rem; color: #333;">Account Access</h2>
-            <div id="accountStatus" class="account-status"></div>
-            
-            <div class="password-input-group">
-                <input type="password" id="passwordInput" placeholder="Enter your password" style="width: 100%; padding: 0.8rem; margin-bottom: 0.5rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
-                <button onclick="loginWithPassword()">Login to Your Account</button>
-                <button class="back-button" onclick="goBackToMainScreen()">← Back</button>
-            </div>
-
-            <div class="password-input-group" id="newAccountSection" style="display: none; margin-top: 0;">
-                <p style="margin-bottom: 1rem; color: #333; font-weight: 600;">Create a new account</p>
-                <input type="password" id="newPasswordInput" placeholder="Create a password" style="width: 100%; padding: 0.8rem; margin-bottom: 0.5rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
-                <input type="password" id="confirmPasswordInput" placeholder="Confirm your password" style="width: 100%; padding: 0.8rem; margin-bottom: 0.5rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;">
-                <button onclick="createNewAccount()">Create Account</button>
-                <button class="back-button" onclick="goBackToMainScreen()">← Back</button>
-            </div>
-        </div>
-
-        <div id="loadingSpinner" class="loading">
-            <div class="spinner"></div>
-            <p>Processing...</p>
-        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
+    <header>
+        <h1>🏛️ Jetcity</h1>
+        <p>Welcome to the Official Website of the Jetcity Micronation</p>
+    </header>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#flag">Flag</a>
+        <a href="#anthem">Anthem</a>
+        <a href="#embassy">Embassy</a>
+        <a href="#information">Information</a>
+    </nav>
+
+    <main>
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Welcome to Jetcity</h2>
+            <p class="placeholder-text">
+                Welcome! Jetcity is an independent micronation dedicated to show micronations are real and freedom. 
+                This website serves as the official hub for all information about our nation, culture, and values.
+            </p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📅 Founded</h3>
+                    <p>2025</p>
+                </div>
+                <div class="info-card">
+                    <h3>👥 Population</h3>
+                    <p>007</p>
+                </div>
+                <div class="info-card">
+                    <h3>🌍 Capital</h3>
+                    <p>Aerohaven</p>
+                </div>
+                <div class="info-card">
+                    <h3>💬 Language</h3>
+                    <p>Jetzon</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flag Section -->
+        <section id="flag">
+            <h2>National Flag</h2>
+            <div class="flag-container">
+                <div>
+                    <p>The flag of Jetcity</p>
+                    <div class="flag-placeholder">
+                        <img src="flag.png" alt="Jetcity Flag">
+                    </div>
+                    <p class="placeholder-text">
+                        <strong>Flag Description:</strong> The Jetcity flag features Golden Crescent and Bird with a green backround. The crescent represents the 
+                        religion, Islam with the bird symolizing freedom and inspiorarion.
+
+
+
+
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anthem Section -->
+        <section id="anthem">
+            <h2>National Anthem</h2>
+            <div class="anthem-section">
+                <h3>Official Anthem: [Freedom speech Unity Anthem]</h3>
+                <p class="placeholder-text">
+                     composer was Jetzoom, it was written by Jetzoom, year made was 2025
+                </p>
+                <div class="audio-player">
+                    <p><strong>Listen to the National Anthem:</strong></p>
+                    <audio controls style="width: 100%;">
+                        <source src="Unity Anthem.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+                <div class="anthem-text">
+                    <p>[NO LYRICS]</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Embassy Section -->
+        <section id="embassy">
+            <h2>Diplomatic Missions & Embassies</h2>
+            <p class="placeholder-text">
+                Jetcity maintains diplomatic relations and embassies in the following locations:
+            </p>
+            <div class="embassy-section">
+                <div class="embassy-card">
+                    <h3>🏢 Main Embassy</h3>
+                    <p><strong>Location:</strong> Jeddah</p>
+                    <p><strong>Address:</strong> NO DATA </p>
+                    <p><strong>Contact:</strong> Sultaneshky02@gnail.com</p>
+                    <p><strong>Ambassador:</strong> Embassy Of Jetcity</p>
+                </div>
+                <div class="embassy-card">
+                    <h3>🏢 Regional Office</h3>
+                    <p><strong>Location:</strong> Jeddah, saudi arabia</p>
+                    <p><strong>Address:</strong> [N/A]</p>
+                    <p><strong>Contact:</strong> sultaneshky02@gmail.com</p>
+                    <p><strong>Director:</strong> Apply Passports Office of Jetcity</p>
+                </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Information Section -->
+        <section id="information">
+            <h2>About Jetcity</h2>
+            
+            <h3 style="color: #667eea; margin-top: 1.5rem;">History</h3>
+            <p class="placeholder-text">
+            National Day: October 21st, First Citizen: November 11th, first President: November 13th.
+            </p>
+
+            <h3 style="color: #667eea; margin-top: 1.5rem;">Government</h3>
+            <p class="placeholder-text">
+                Executive Branch, Legislative Branch, Judicial Branch.
+                President, Vice President, Parliament Speaker, Chief Justice
+            </p>
+            </p>
+
+            <h3 style="color: #667eea; margin-top: 1.5rem;">Geography & Climate</h3>
+            <p class="placeholder-text">
+                Volume: ~3525 m³, located in central Jeddah, Saudi Arabia. Mostly sunny, arid climate with very hot summers and mild winters.
+            </p>
+
+            <h3 style="color: #667eea; margin-top: 1.5rem;">Economy</h3>
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <p style="margin-bottom: 1rem;"><strong>Official Currency: JCH (Jetcity Hearo)</strong></p>
+                <img src="currency.png" alt="JCH Currency Symbol" style="max-width: 200px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            </div>
+            </p>>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Jetcity Micronation. All rights reserved.</p>
+        <p>Official Website | <a href="mailto:contact@jetcity.example.com" style="color: #667eea; text-decoration: none;">Contact Us</a></p>
+    </footer>
 
     <script>
-        // Initialize basic auth state
-        function checkAuthState() {
+        // Authentication and Data Persistence System for Jetcity
+
+        // Check if user is authenticated
+        function checkAuthentication() {
             const userToken = localStorage.getItem('jetcityUserToken');
             const userData = localStorage.getItem('jetcityUserData');
             
-            if (userToken && userData) {
-                // User is logged in, redirect to main page
-                window.location.href = 'index.html';
+            if (!userToken || !userData) {
+                // Not logged in, redirect to auth page
+                window.location.href = 'auth.html';
+                return false;
             }
-        }
-
-        // Get all registered accounts
-        function getAllAccounts() {
-            const accounts = localStorage.getItem('jetcityAccounts');
-            return accounts ? JSON.parse(accounts) : {};
-        }
-
-        // Save accounts database
-        function saveAccounts(accounts) {
-            localStorage.setItem('jetcityAccounts', JSON.stringify(accounts));
-        }
-
-        function showMessage(message, type = 'error') {
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
             
-            if (type === 'error') {
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-                successDiv.style.display = 'none';
-            } else {
-                successDiv.textContent = message;
-                successDiv.style.display = 'block';
-                errorDiv.style.display = 'none';
-            }
+            return true;
         }
 
-        function showAccountStatus(message, type = 'exists') {
-            const statusDiv = document.getElementById('accountStatus');
-            statusDiv.textContent = message;
-            statusDiv.className = 'account-status account-' + type;
-            statusDiv.style.display = 'block';
-        }
-
-        function toggleLoading(show) {
-            document.getElementById('loadingSpinner').style.display = show ? 'block' : 'none';
-        }
-
-        function goBackToMainScreen() {
-            document.getElementById('mainScreen').style.display = 'block';
-            document.getElementById('emailVerificationScreen').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('accountStatus').style.display = 'none';
-        }
-
-        // Check if email exists and show appropriate screen
-        function checkEmailAndProceed() {
-            const email = document.getElementById('emailInput').value;
+        // Initialize user panel
+        function initializeUserPanel() {
+            const userData = JSON.parse(localStorage.getItem('jetcityUserData'));
             
-            if (!email || !email.includes('@')) {
-                showMessage('Please enter a valid email address');
-                return;
-            }
-
-            const accounts = getAllAccounts();
-            const accountExists = accounts[email.toLowerCase()];
-
-            // Hide main screen and show verification screen
-            document.getElementById('mainScreen').style.display = 'none';
-            document.getElementById('emailVerificationScreen').style.display = 'block';
-            document.getElementById('errorMessage').style.display = 'none';
-
-            if (accountExists) {
-                // Account exists - show login screen
-                showAccountStatus('✓ Account found. Please login with your password.', 'exists');
-                document.getElementById('newAccountSection').style.display = 'none';
-                document.getElementById('passwordInput').parentElement.style.display = 'block';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
-            } else {
-                // New account - show signup screen
-                showAccountStatus('📝 No account found. Create a new one below.', 'new');
-                document.getElementById('passwordInput').parentElement.style.display = 'none';
-                document.getElementById('newAccountSection').style.display = 'block';
-                document.getElementById('newPasswordInput').value = '';
-                document.getElementById('confirmPasswordInput').value = '';
-                document.getElementById('newPasswordInput').focus();
+            if (userData) {
+                document.getElementById('userPanel').style.display = 'flex';
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('userEmail').textContent = userData.email;
             }
         }
 
-        // Login with password
-        function loginWithPassword() {
-            const email = document.getElementById('emailInput').value.toLowerCase();
-            const password = document.getElementById('passwordInput').value;
-
-            if (!password) {
-                showMessage('Please enter your password');
-                return;
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('jetcityUserToken');
+                localStorage.removeItem('jetcityUserData');
+                window.location.href = 'auth.html';
             }
+        }
 
-            toggleLoading(true);
+        // Save editable content
+        function saveContentToStorage(elementId, content) {
+            const userData = JSON.parse(localStorage.getItem('jetcityUserData'));
+            let userContent = JSON.parse(localStorage.getItem('jetcityUserContent_' + userData.id)) || {};
+            
+            userContent[elementId] = content;
+            localStorage.setItem('jetcityUserContent_' + userData.id, JSON.stringify(userContent));
+        }
 
-            // Simulate password check
-            setTimeout(() => {
-                const accounts = getAllAccounts();
-                const account = accounts[email];
+        // Load editable content
+        function loadContentFromStorage(elementId) {
+            const userData = JSON.parse(localStorage.getItem('jetcityUserData'));
+            const userContent = JSON.parse(localStorage.getItem('jetcityUserContent_' + userData.id)) || {};
+            
+            return userContent[elementId] || null;
+        }
 
-                if (account && account.password === password) {
-                    // Correct password
-                    const userData = {
-                        id: account.id,
-                        email: email,
-                        name: email.split('@')[0],
-                        picture: 'https://via.placeholder.com/150',
-                        provider: 'email'
-                    };
-
-                    localStorage.setItem('jetcityUserToken', 'token_' + Math.random().toString(36).substr(2, 9));
-                    localStorage.setItem('jetcityUserData', JSON.stringify(userData));
-                    
-                    showMessage('Successfully logged in! Redirecting...', 'success');
-                    toggleLoading(false);
-                    
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
-                } else {
-                    toggleLoading(false);
-                    showMessage('Incorrect password. Please try again.');
+        // Make element editable
+        function makeEditable(element) {
+            if (!element) return;
+            
+            element.classList.add('editable');
+            element.contentEditable = true;
+            element.style.cursor = 'text';
+            
+            // Add save hint
+            const hint = document.createElement('div');
+            hint.className = 'edit-hint';
+            hint.textContent = '✏️ Click to edit, press Ctrl+S to save';
+            element.appendChild(hint);
+            
+            // Save on Ctrl+S
+            element.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    saveEdit(element);
                 }
+            });
+            
+            // Save on blur
+            element.addEventListener('blur', function() {
+                saveEdit(element);
+            });
+        }
+
+        // Save edited content
+        function saveEdit(element) {
+            const content = element.textContent.replace('✏️ Click to edit, press Ctrl+S to save', '').trim();
+            saveContentToStorage(element.id, content);
+            
+            // Show save notification
+            const originalBg = element.style.backgroundColor;
+            element.style.backgroundColor = '#d4edda';
+            setTimeout(() => {
+                element.style.backgroundColor = originalBg;
             }, 1000);
         }
 
-        // Create new account
-        function createNewAccount() {
-            const email = document.getElementById('emailInput').value.toLowerCase();
-            const password = document.getElementById('newPasswordInput').value;
-            const confirmPassword = document.getElementById('confirmPasswordInput').value;
-
-            if (!password || password.length < 6) {
-                showMessage('Password must be at least 6 characters long');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showMessage('Passwords do not match');
-                return;
-            }
-
-            toggleLoading(true);
-
-            // Simulate account creation
-            setTimeout(() => {
-                const accounts = getAllAccounts();
-                
-                // Double-check account doesn't exist
-                if (accounts[email]) {
-                    toggleLoading(false);
-                    showMessage('This account already exists. Please login instead.');
-                    return;
-                }
-
-                // Create new account
-                accounts[email] = {
-                    id: 'email_' + Math.random().toString(36).substr(2, 9),
-                    email: email,
-                    password: password, // In production, this would be hashed
-                    createdAt: new Date().toISOString()
-                };
-
-                saveAccounts(accounts);
-
-                // Log in the user
-                const userData = {
-                    id: accounts[email].id,
-                    email: email,
-                    name: email.split('@')[0],
-                    picture: 'https://via.placeholder.com/150',
-                    provider: 'email'
-                };
-
-                localStorage.setItem('jetcityUserToken', 'token_' + Math.random().toString(36).substr(2, 9));
-                localStorage.setItem('jetcityUserData', JSON.stringify(userData));
-                
-                showMessage('Account created successfully! Redirecting...', 'success');
-                toggleLoading(false);
-                
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-            }, 1000);
-        }
-
-        // Google Sign-In (simulated)
-        function startGoogleSignIn() {
-            toggleLoading(true);
+        // Initialize editable content on page load
+        function initializeEditableContent() {
+            const editableElements = document.querySelectorAll('[data-editable="true"]');
             
-            setTimeout(() => {
-                // In production, integrate real Google OAuth here
-                const mockEmail = 'google_user_' + Math.random().toString(36).substr(2, 9) + '@google.com';
+            editableElements.forEach(element => {
+                // Give it an ID if it doesn't have one
+                if (!element.id) {
+                    element.id = 'editable_' + Math.random().toString(36).substr(2, 9);
+                }
                 
-                const mockUser = {
-                    id: 'google_' + Math.random().toString(36).substr(2, 9),
-                    email: mockEmail,
-                    name: 'Google User',
-                    picture: 'https://via.placeholder.com/150',
-                    provider: 'google'
-                };
-
-                localStorage.setItem('jetcityUserToken', 'token_' + Math.random().toString(36).substr(2, 9));
-                localStorage.setItem('jetcityUserData', JSON.stringify(mockUser));
+                // Load saved content
+                const savedContent = loadContentFromStorage(element.id);
+                if (savedContent) {
+                    element.textContent = savedContent;
+                }
                 
-                showMessage('Successfully signed in with Google! Redirecting...', 'success');
-                toggleLoading(false);
-                
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-            }, 1500);
+                // Make it editable
+                makeEditable(element);
+            });
         }
 
-        // Check auth state on page load
-        checkAuthState();
+        // Initialize everything on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (checkAuthentication()) {
+                initializeUserPanel();
+                initializeEditableContent();
+            }
+        });
+
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const editableElements = document.querySelectorAll('.editable');
+            editableElements.forEach(element => {
+                const content = element.textContent.replace('✏️ Click to edit, press Ctrl+S to save', '').trim();
+                if (content) {
+                    saveContentToStorage(element.id, content);
+                }
+            });
+        }, 30000);
     </script>
 </body>
 </html>
+
