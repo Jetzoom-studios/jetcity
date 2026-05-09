@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetcity - Frequently Asked Questions</title>
+    <style>
+        :root {
+            --brand: #1e3a8a;
+            --brand-soft: #dbeafe;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --radius-lg: 28px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--surface-alt);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--brand);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .faq-section {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .faq-section h2 {
+            color: var(--brand);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--brand-soft);
+            padding-bottom: 0.5rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .back-button {
+            display: inline-block;
+            background: var(--brand);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            background: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .faq-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Frequently Asked Questions</h1>
+            <p>Official answers to common questions about Jetcity, citizenship, and our micronation.</p>
+        </header>
+
+        <section class="faq-section">
+            <h2>About Jetcity</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">What is Jetcity?</div>
+                <div class="faq-answer">Jetcity is an officially recognized micronation founded to represent a sovereign community with its own laws, national symbols, and government services. We provide a platform for citizens to engage in civic participation, economic innovation, and international outreach.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">When was Jetcity founded?</div>
+                <div class="faq-answer">Jetcity was founded in 2025 and operates with a clear separation of executive, legislative, and judicial authority to ensure accountability and balance.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the capital of Jetcity?</div>
+                <div class="faq-answer">The capital of Jetcity is Aerohaven, serving as the administrative and cultural center of our micronation.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the official language of Jetcity?</div>
+                <div class="faq-answer">The official language of Jetcity is Jetzon, a constructed language developed specifically for our micronation. Resources for learning Jetzon are available on our language page.</div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Citizenship and Services</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I become a citizen of Jetcity?</div>
+                <div class="faq-answer">Citizenship is granted through our official registration process. You must provide a valid email address, create a secure password, and agree to our terms of service. Once registered, you'll receive a unique citizen ID and access to all government services.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What services are available to citizens?</div>
+                <div class="faq-answer">Citizens have access to personalized dashboards, official documents, language learning resources, and participation in government initiatives. We also provide secure communication channels and economic opportunities within our community.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is my personal information secure?</div>
+                <div class="faq-answer">Yes, we use industry-standard encryption and secure authentication methods. Your data is protected and never shared with third parties without your explicit consent. All communications are conducted through secure channels.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the currency of Jetcity?</div>
+                <div class="faq-answer">The official currency of Jetcity is the JCH (Jetcity Currency Unit), used for transactions within our economic system and community initiatives.</div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Technical and Access</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I access the citizen portal?</div>
+                <div class="faq-answer">Access the citizen portal by clicking "Citizen Portal" on our homepage. If you're not logged in, you'll be directed to the sign-in page. After authentication, you'll be redirected to your personalized dashboard.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">I forgot my password. What should I do?</div>
+                <div class="faq-answer">If you forget your password, please contact our support team through the official channels. We can help you reset your credentials securely.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is the website mobile-friendly?</div>
+                <div class="faq-answer">Yes, our website is fully responsive and optimized for mobile devices, tablets, and desktop computers. You can access all features from any device with a modern web browser.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How can I contact the government?</div>
+                <div class="faq-answer">You can contact the Jetcity government through our official communication channels. For general inquiries, use the contact form on our website. For urgent matters, email our administration directly.</div>
+            </div>
+        </section>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-button">← Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
