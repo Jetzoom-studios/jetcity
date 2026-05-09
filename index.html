@@ -679,9 +679,9 @@
                     <p>The Jetcity government portal has been refreshed with a modern, official presentation for citizens, partners, and international observers.</p>
                 </div>
                 <div class="news-card">
-                    <time datetime="2026-05-08">May 8, 2026</time>
-                    <h3>Public communications advisory published</h3>
-                    <p>Jetcity leadership continues to develop new cultural programs and will release official event guidance soon.</p>
+                    <time datetime="2026-05-08">May 9, 2026</time>
+                    <h3>Jetcity has signed a new Alliance</h3>
+                    <p>Jetcity is proud to announce its partnership with the Republic of Alphaville, strengthening diplomatic ties and fostering economic cooperation.</p>
                 </div>
             </div>
         </section>
@@ -692,46 +692,68 @@
         <p>Official website of the Jetcity micronation | <a href="mailto:contact@jetcity.example.com">contact@jetcity.example.com</a></p>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"><\/script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"><\/script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"><\/script>
+
     <script>
-        function getStoredAuthToken() {
-            return localStorage.getItem('jetcityUserToken') || sessionStorage.getItem('jetcityUserToken');
-        }
+        // IMPORTANT: Replace with YOUR Firebase config from console.firebase.google.com
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_AUTH_DOMAIN_HERE",
+            projectId: "YOUR_PROJECT_ID_HERE",
+            storageBucket: "YOUR_STORAGE_BUCKET_HERE",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
+            appId: "YOUR_APP_ID_HERE"
+        };
 
-        function getStoredUserData() {
-            return JSON.parse(localStorage.getItem('jetcityUserData') || sessionStorage.getItem('jetcityUserData') || 'null');
-        }
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
 
-        function checkAuthentication() {
-            const userToken = getStoredAuthToken();
-            const userData = getStoredUserData();
-            if (!userToken || !userData) {
-                window.location.href = 'auth.html';
-                return false;
-            }
-            showUserDashboard(userData);
-            return true;
-        }
-
-        function showUserDashboard(userData) {
+        function showUserDashboard(user, userProfile) {
             document.getElementById('userDashboard').style.display = 'block';
-            document.getElementById('userNameDisplay').textContent = userData.name || 'Citizen';
-            document.getElementById('userFullName').textContent = userData.name || 'Unknown';
-            document.getElementById('userEmailDisplay').textContent = userData.email || 'N/A';
-            document.getElementById('userIdDisplay').textContent = userData.id || 'N/A';
-            document.getElementById('userProvider').textContent = userData.provider || 'Email';
+            document.getElementById('userNameDisplay').textContent = userProfile.name || 'Citizen';
+            document.getElementById('userFullName').textContent = userProfile.name || 'Unknown';
+            document.getElementById('userEmailDisplay').textContent = user.email || 'N/A';
+            document.getElementById('userIdDisplay').textContent = user.uid || 'N/A';
+            document.getElementById('userProvider').textContent = 'Email';
         }
 
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('jetcityUserToken');
-                localStorage.removeItem('jetcityUserData');
-                sessionStorage.removeItem('jetcityUserToken');
-                sessionStorage.removeItem('jetcityUserData');
-                window.location.href = 'auth.html';
+                auth.signOut().then(() => {
+                    window.location.href = 'auth.html';
+                }).catch(error => {
+                    alert('Error logging out: ' + error.message);
+                });
             }
         }
 
-        window.addEventListener('DOMContentLoaded', function() {
+        function checkAuthentication() {
+            const user = auth.currentUser;
+            if (!user) {
+                window.location.href = 'auth.html';
+                return false;
+            }
+            
+            // Fetch user profile from database
+            database.ref('users/' + user.uid).once('value', snapshot => {
+                const userProfile = snapshot.val() || { name: user.email.split('@')[0] };
+                showUserDashboard(user, userProfile);
+            }).catch(error => {
+                console.error('Error fetching user profile:', error);
+                // Fallback to showing user info even if profile fetch fails
+                showUserDashboard(user, { name: user.email.split('@')[0] });
+            });
+            
+            return true;
+        }
+
+        // Check auth state when page loads
+        auth.onAuthStateChanged(() => {
             checkAuthentication();
         });
     </script>

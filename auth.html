@@ -198,18 +198,12 @@
             <div id="pageStatus" class="message"></div>
 
             <div id="mainScreen">
-                <button class="button-primary" onclick="startGoogleSignIn()">
-                    Sign in with Google
-                </button>
-
-                <div class="divider"><span>or continue with email</span></div>
-
                 <div class="field-group">
                     <input type="email" id="emailInput" placeholder="Enter your email address" autocomplete="email">
                     <button class="button-secondary" onclick="checkEmailAndProceed()">Continue</button>
                 </div>
 
-                <p class="privacy-notice">By signing in, you agree to Jetcity’s Terms of Service and Privacy Policy.</p>
+                <p class="privacy-notice">By signing in, you agree to Jetcity's Terms of Service and Privacy Policy.</p>
             </div>
 
             <div id="emailVerificationScreen" class="hidden">
@@ -218,7 +212,7 @@
                 <div id="rememberMeSection" class="field-group hidden">
                     <label style="display:flex; align-items:center; gap:0.6rem; color: var(--text); font-weight: 600;">
                         <input type="checkbox" id="rememberMeCheckbox" style="width:16px; height:16px;">
-                        Keep me signed in on this device
+                        Keep me signed in
                     </label>
                 </div>
 
@@ -229,7 +223,7 @@
 
                 <div class="field-group hidden" id="newAccountSection">
                     <input type="text" id="fullNameInput" placeholder="Full Name" autocomplete="name">
-                    <input type="password" id="newPasswordInput" placeholder="Create a password" autocomplete="new-password">
+                    <input type="password" id="newPasswordInput" placeholder="Create a password (min 6 chars)" autocomplete="new-password">
                     <input type="password" id="confirmPasswordInput" placeholder="Confirm your password" autocomplete="new-password">
                     <button class="button-primary" onclick="createNewAccount()">Create Account</button>
                 </div>
@@ -253,45 +247,33 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"><\/script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"><\/script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"><\/script>
+
     <script>
-        function getStoredAuthToken() {
-            return localStorage.getItem('jetcityUserToken') || sessionStorage.getItem('jetcityUserToken');
+        // IMPORTANT: Replace with YOUR Firebase config from console.firebase.google.com
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_AUTH_DOMAIN_HERE",
+            projectId: "YOUR_PROJECT_ID_HERE",
+            storageBucket: "YOUR_STORAGE_BUCKET_HERE",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
+            appId: "YOUR_APP_ID_HERE"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        function toggleVisibility(id, visible) {
+            document.getElementById(id).classList.toggle('hidden', !visible);
         }
 
-        function getStoredUserData() {
-            return JSON.parse(localStorage.getItem('jetcityUserData') || sessionStorage.getItem('jetcityUserData') || 'null');
-        }
-
-        function logout() {
-            localStorage.removeItem('jetcityUserToken');
-            localStorage.removeItem('jetcityUserData');
-            sessionStorage.removeItem('jetcityUserToken');
-            sessionStorage.removeItem('jetcityUserData');
-            window.location.href = 'auth.html';
-        }
-
-        function checkAuthState() {
-            const userToken = getStoredAuthToken();
-            const userData = getStoredUserData();
-            if (userToken && userData) {
-                toggleVisibility('mainScreen', false);
-                toggleVisibility('emailVerificationScreen', false);
-                toggleVisibility('alreadyLoggedInScreen', true);
-                document.getElementById('pageStatus').className = 'message success';
-                document.getElementById('pageStatus').textContent = 'You are already signed in. Continue to the portal or sign out.';
-                document.getElementById('pageStatus').style.display = 'block';
-                return true;
-            }
-            return false;
-        }
-
-        function getAllAccounts() {
-            const accounts = localStorage.getItem('jetcityAccounts');
-            return accounts ? JSON.parse(accounts) : {};
-        }
-
-        function saveAccounts(accounts) {
-            localStorage.setItem('jetcityAccounts', JSON.stringify(accounts));
+        function toggleLoading(show) {
+            document.getElementById('loadingSpinner').classList.toggle('hidden', !show);
         }
 
         function showMessage(message, type = 'error') {
@@ -313,14 +295,6 @@
             statusDiv.textContent = message;
             statusDiv.className = type === 'new' ? 'message success' : 'message';
             statusDiv.style.display = 'block';
-        }
-
-        function toggleVisibility(id, visible) {
-            document.getElementById(id).classList.toggle('hidden', !visible);
-        }
-
-        function toggleLoading(show) {
-            document.getElementById('loadingSpinner').classList.toggle('hidden', !show);
         }
 
         function goBackToMainScreen() {
@@ -347,51 +321,42 @@
                 return;
             }
 
-            const accounts = getAllAccounts();
-            const accountExists = accounts[email.toLowerCase()] !== undefined;
+            toggleLoading(true);
 
-            toggleVisibility('mainScreen', false);
-            toggleVisibility('emailVerificationScreen', true);
-            toggleVisibility('rememberMeSection', true);
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
+            // Check if user exists in Firebase Auth
+            auth.fetchSignInMethodsForEmail(email).then(methods => {
+                toggleLoading(false);
+                toggleVisibility('mainScreen', false);
+                toggleVisibility('emailVerificationScreen', true);
+                toggleVisibility('rememberMeSection', true);
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
 
-            if (accountExists) {
-                showAccountStatus('Account found. Please login with your password.', 'exists');
-                toggleVisibility('newAccountSection', false);
-                document.getElementById('passwordGroup').style.display = 'grid';
-                document.getElementById('passwordInput').value = '';
-                document.getElementById('passwordInput').focus();
-            } else {
-                showAccountStatus('No account found. Create a new one below.', 'new');
-                toggleVisibility('newAccountSection', true);
-                document.getElementById('passwordGroup').style.display = 'none';
-                document.getElementById('fullNameInput').value = '';
-                document.getElementById('newPasswordInput').value = '';
-                document.getElementById('confirmPasswordInput').value = '';
-                document.getElementById('newPasswordInput').focus();
-            }
+                if (methods.length > 0) {
+                    // Account exists
+                    showAccountStatus('Account found. Please login with your password.', 'exists');
+                    toggleVisibility('newAccountSection', false);
+                    document.getElementById('passwordGroup').style.display = 'grid';
+                    document.getElementById('passwordInput').value = '';
+                    document.getElementById('passwordInput').focus();
+                } else {
+                    // New account
+                    showAccountStatus('No account found. Create a new one below.', 'new');
+                    toggleVisibility('newAccountSection', true);
+                    document.getElementById('passwordGroup').style.display = 'none';
+                    document.getElementById('fullNameInput').value = '';
+                    document.getElementById('newPasswordInput').value = '';
+                    document.getElementById('confirmPasswordInput').value = '';
+                    document.getElementById('fullNameInput').focus();
+                }
+            }).catch(error => {
+                toggleLoading(false);
+                showMessage('Error checking email: ' + error.message);
+            });
         }
 
-        async function hashPassword(password) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            return Array.from(new Uint8Array(hashBuffer)).map(byte => byte.toString(16).padStart(2, '0')).join('');
-        }
-
-        function saveSession(userData, remember) {
-            const token = 'token_' + Math.random().toString(36).substr(2, 9);
-            const destination = remember ? localStorage : sessionStorage;
-            const other = remember ? sessionStorage : localStorage;
-            other.removeItem('jetcityUserToken');
-            other.removeItem('jetcityUserData');
-            destination.setItem('jetcityUserToken', token);
-            destination.setItem('jetcityUserData', JSON.stringify(userData));
-        }
-
-        async function loginWithPassword() {
-            const email = document.getElementById('emailInput').value.trim().toLowerCase();
+        function loginWithPassword() {
+            const email = document.getElementById('emailInput').value.trim();
             const password = document.getElementById('passwordInput').value;
             const remember = document.getElementById('rememberMeCheckbox').checked;
 
@@ -401,30 +366,27 @@
             }
 
             toggleLoading(true);
-            const hashedPassword = await hashPassword(password);
-            setTimeout(() => {
-                const accounts = getAllAccounts();
-                const account = accounts[email];
-                if (account && account.password === hashedPassword) {
-                    const userData = {
-                        id: account.id,
-                        email: email,
-                        name: account.name || email.split('@')[0],
-                        provider: 'email'
-                    };
-                    saveSession(userData, remember);
-                    showMessage('Login successful. Redirecting...', 'success');
-                    toggleLoading(false);
-                    setTimeout(() => window.location.href = 'index.html', 900);
-                } else {
-                    toggleLoading(false);
+
+            auth.signInWithEmailAndPassword(email, password).then(userCredential => {
+                const user = userCredential.user;
+                toggleLoading(false);
+                showMessage('Login successful. Redirecting...', 'success');
+                sessionStorage.setItem('jetcityUserToken', user.uid);
+                setTimeout(() => window.location.href = 'index.html', 900);
+            }).catch(error => {
+                toggleLoading(false);
+                if (error.code === 'auth/user-not-found') {
+                    showMessage('Account not found.');
+                } else if (error.code === 'auth/wrong-password') {
                     showMessage('Incorrect password. Please try again.');
+                } else {
+                    showMessage('Error: ' + error.message);
                 }
-            }, 800);
+            });
         }
 
-        async function createNewAccount() {
-            const email = document.getElementById('emailInput').value.trim().toLowerCase();
+        function createNewAccount() {
+            const email = document.getElementById('emailInput').value.trim();
             const fullName = document.getElementById('fullNameInput').value.trim();
             const password = document.getElementById('newPasswordInput').value;
             const confirmPassword = document.getElementById('confirmPasswordInput').value;
@@ -446,55 +408,58 @@
             }
 
             toggleLoading(true);
-            const hashedPassword = await hashPassword(password);
-            setTimeout(() => {
-                const accounts = getAllAccounts();
-                if (accounts[email]) {
-                    toggleLoading(false);
-                    showMessage('This account already exists. Please login instead.');
-                    return;
-                }
 
-                accounts[email] = {
-                    id: 'email_' + Math.random().toString(36).substr(2, 9),
+            auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+                const user = userCredential.user;
+                
+                // Save user profile data to Realtime Database
+                database.ref('users/' + user.uid).set({
                     email: email,
                     name: fullName,
-                    password: hashedPassword,
                     createdAt: new Date().toISOString()
-                };
-                saveAccounts(accounts);
-                const userData = {
-                    id: accounts[email].id,
-                    email: email,
-                    name: fullName,
-                    provider: 'email'
-                };
-                saveSession(userData, remember);
-                showMessage('Account created. Redirecting...', 'success');
+                }).then(() => {
+                    toggleLoading(false);
+                    showMessage('Account created. Redirecting...', 'success');
+                    sessionStorage.setItem('jetcityUserToken', user.uid);
+                    setTimeout(() => window.location.href = 'index.html', 900);
+                });
+            }).catch(error => {
                 toggleLoading(false);
-                setTimeout(() => window.location.href = 'index.html', 900);
-            }, 900);
+                if (error.code === 'auth/email-already-in-use') {
+                    showMessage('This account already exists. Please login instead.');
+                } else {
+                    showMessage('Error: ' + error.message);
+                }
+            });
         }
 
-        function startGoogleSignIn() {
-            toggleLoading(true);
-            setTimeout(() => {
-                const mockEmail = 'citizen_' + Math.random().toString(36).substr(2, 9) + '@jetcity.gov';
-                const mockUser = {
-                    id: 'google_' + Math.random().toString(36).substr(2, 9),
-                    email: mockEmail,
-                    name: 'Jetcity Citizen',
-                    provider: 'google'
-                };
-                localStorage.setItem('jetcityUserToken', 'token_' + Math.random().toString(36).substr(2, 9));
-                localStorage.setItem('jetcityUserData', JSON.stringify(mockUser));
-                showMessage('Signed in successfully. Redirecting...', 'success');
-                toggleLoading(false);
-                setTimeout(() => window.location.href = 'index.html', 900);
-            }, 1100);
+        function logout() {
+            auth.signOut().then(() => {
+                sessionStorage.removeItem('jetcityUserToken');
+                window.location.href = 'auth.html';
+            }).catch(error => {
+                showMessage('Error logging out: ' + error.message);
+            });
         }
 
-        checkAuthState();
+        function checkAuthState() {
+            const user = auth.currentUser;
+            if (user) {
+                toggleVisibility('mainScreen', false);
+                toggleVisibility('emailVerificationScreen', false);
+                toggleVisibility('alreadyLoggedInScreen', true);
+                document.getElementById('pageStatus').className = 'message success';
+                document.getElementById('pageStatus').textContent = 'You are already signed in. Continue to the portal or sign out.';
+                document.getElementById('pageStatus').style.display = 'block';
+                return true;
+            }
+            return false;
+        }
+
+        // Check auth state on page load
+        auth.onAuthStateChanged(() => {
+            checkAuthState();
+        });
     </script>
     <style>
         @keyframes spin {
