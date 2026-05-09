@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetcity - Tax Information</title>
+    <style>
+        :root {
+            --brand: #1e3a8a;
+            --brand-soft: #dbeafe;
+            --surface: #ffffff;
+            --surface-alt: #f8fafc;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --radius-lg: 28px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--surface-alt);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--brand);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .tax-section {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .tax-section h2 {
+            color: var(--brand);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--brand-soft);
+            padding-bottom: 0.5rem;
+        }
+
+        .tax-rates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .rate-card {
+            background: var(--brand-soft);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border-left: 4px solid var(--brand);
+        }
+
+        .rate-card h3 {
+            color: var(--brand);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .rate-card .amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .rate-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .benefit-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .benefit-item h4 {
+            color: var(--brand);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .payment-info {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-info h3 {
+            color: var(--brand);
+            margin-bottom: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .payment-method {
+            text-align: center;
+            padding: 1rem;
+            background: var(--brand-soft);
+            border-radius: var(--radius);
+        }
+
+        .back-button {
+            display: inline-block;
+            background: var(--brand);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            background: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .tax-section {
+                padding: 1.5rem;
+            }
+
+            .tax-rates {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tax Information</h1>
+            <p>Transparent and fair taxation system for Jetcity citizens.</p>
+        </header>
+
+        <section class="tax-section">
+            <h2>Tax Rates</h2>
+            <p>Jetcity operates a simple, progressive tax system designed to fund essential services while maintaining economic fairness. Our rates are among the lowest globally, ensuring citizens keep the majority of their earnings.</p>
+
+            <div class="tax-rates">
+                <div class="rate-card">
+                    <h3>Income Tax</h3>
+                    <div class="amount">5-15%</div>
+                    <p>Progressive rates based on annual income. First JCH 50,000 tax-free.</p>
+                </div>
+
+                <div class="rate-card">
+                    <h3>Business Tax</h3>
+                    <div class="amount">8%</div>
+                    <p>Flat rate for all business activities within Jetcity.</p>
+                </div>
+
+                <div class="rate-card">
+                    <h3>Property Tax</h3>
+                    <div class="amount">2%</div>
+                    <p>Annual assessment on property value.</p>
+                </div>
+
+                <div class="rate-card">
+                    <h3>Import/Export Tax</h3>
+                    <div class="amount">3%</div>
+                    <p>Applied to goods crossing Jetcity borders.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="tax-section">
+            <h2>How Your Taxes Are Used</h2>
+            <p>Every JCH collected goes directly toward improving our micronation. We maintain complete transparency in our budget allocation.</p>
+
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <h4>Education & Culture</h4>
+                    <p>45% - Jetzon language programs, cultural preservation, and citizen education initiatives.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <h4>Infrastructure</h4>
+                    <p>25% - Digital infrastructure, secure communication systems, and community facilities.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <h4>Public Services</h4>
+                    <p>20% - Citizen portal maintenance, diplomatic relations, and administrative services.</p>
+                </div>
+
+                <div class="benefit-item">
+                    <h4>Economic Development</h4>
+                    <p>10% - Business incentives, innovation grants, and economic growth programs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="tax-section">
+            <h2>Payment Information</h2>
+            <div class="payment-info">
+                <h3>When to Pay</h3>
+                <p>Taxes are due annually on the anniversary of your citizenship registration. You will receive automated reminders through your citizen portal 30 days before the due date.</p>
+
+                <h3>Payment Methods</h3>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <h4>Online Portal</h4>
+                        <p>Secure payment through your citizen dashboard using JCH or approved cryptocurrencies.</p>
+                    </div>
+
+                    <div class="payment-method">
+                        <h4>Bank Transfer</h4>
+                        <p>Direct transfer to Jetcity Treasury account with your citizen ID as reference.</p>
+                    </div>
+
+                    <div class="payment-method">
+                        <h4>Automated Deduction</h4>
+                        <p>Optional automatic monthly deductions from your registered accounts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tax-section">
+            <h2>Tax Benefits & Exemptions</h2>
+            <ul style="padding-left: 1.5rem;">
+                <li><strong>Educational Investments:</strong> 50% tax credit for contributions to Jetzon language education</li>
+                <li><strong>Business Startups:</strong> First-year exemption for new businesses under JCH 10,000 revenue</li>
+                <li><strong>Community Service:</strong> Tax reduction for citizens participating in government initiatives</li>
+                <li><strong>Environmental Projects:</strong> Credits for sustainable business practices</li>
+                <li><strong>Low-Income Support:</strong> Automatic exemptions for citizens below poverty threshold</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-button">← Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
