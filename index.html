@@ -1,0 +1,737 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="flag.png">
+    <title>Jetcity | Official Government of the Jetcity Micronation</title>
+    <style>
+        :root {
+            --background: #eef4fb;
+            --surface: #ffffff;
+            --text: #102a43;
+            --muted: #627d98;
+            --brand: #1d3b78;
+            --brand-soft: #e4ecf8;
+            --accent: #c49b31;
+            --border: rgba(16, 42, 67, 0.08);
+            --shadow: 0 24px 60px rgba(16, 42, 67, 0.08);
+            --radius: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top left, #f6f9ff 0%, #eff4fb 34%, #eef4fb 100%);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(29, 59, 120, 0.12), transparent 45%);
+            pointer-events: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+        }
+
+        .header-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .brand-mark {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--brand), #2f57a5);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .brand-label h1 {
+            font-size: 1.05rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-bottom: 0.15rem;
+        }
+
+        .brand-label p {
+            color: var(--muted);
+            font-size: 0.94rem;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            justify-content: flex-end;
+        }
+
+        .nav a {
+            padding: 0.85rem 1rem;
+            border-radius: 999px;
+            background: rgba(29, 59, 120, 0.06);
+            color: var(--muted);
+            font-size: 0.92rem;
+            transition: 0.22s ease;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: rgba(29, 59, 120, 0.14);
+            color: var(--brand);
+        }
+
+        main {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 2rem;
+            align-items: center;
+            padding-top: 1rem;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            background: rgba(196, 155, 49, 0.12);
+            color: #694f08;
+            font-size: 0.81rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: clamp(2.4rem, 4vw, 3.8rem);
+            line-height: 0.97;
+            max-width: 12ch;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            max-width: 44rem;
+            color: var(--muted);
+            font-size: 1.03rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.8rem;
+        }
+
+        .button-link,
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border-radius: 999px;
+            border: none;
+            padding: 0.95rem 1.65rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .button-link {
+            background: var(--brand);
+            color: #fff;
+            transition: transform 0.22s ease, background 0.22s ease;
+        }
+
+        .button-link.secondary {
+            background: #fff;
+            color: var(--brand);
+            box-shadow: 0 10px 25px rgba(16, 42, 67, 0.06);
+            border: 1px solid rgba(29, 59, 120, 0.12);
+        }
+
+        .button-link:hover,
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        .hero-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card h3 {
+            margin-bottom: 1rem;
+            color: var(--brand);
+            font-size: 1.15rem;
+        }
+
+        .hero-card p,
+        .hero-card div p {
+            color: var(--muted);
+            margin-bottom: 0.9rem;
+        }
+
+        .user-dashboard {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .user-dashboard h2 {
+            color: var(--brand);
+            margin-bottom: 1rem;
+        }
+
+        .user-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-info div {
+            background: var(--brand-soft);
+            padding: 1rem;
+            border-radius: 16px;
+        }
+
+        .user-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--brand);
+        }
+
+        .user-info p {
+            color: var(--muted);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .user-actions button {
+            background: var(--brand);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .user-actions button:hover {
+            transform: translateY(-1px);
+        }
+
+        .user-actions .logout-btn {
+            background: #dc3545;
+        }
+
+        .user-actions .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.75rem;
+        }
+
+        .stat-card {
+            background: var(--brand-soft);
+            border: 1px solid rgba(29, 59, 120, 0.12);
+            border-radius: 22px;
+            padding: 1.3rem;
+            min-height: 120px;
+        }
+
+        .stat-card h3 {
+            margin-bottom: 0.7rem;
+            color: var(--brand);
+            font-size: 1rem;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        section {
+            margin-top: 2.4rem;
+        }
+
+        .section-heading {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-end;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-heading h2 {
+            font-size: 1.55rem;
+        }
+
+        .section-heading p,
+        .section-heading .badge {
+            color: var(--muted);
+            font-size: 0.96rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.55rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(196, 155, 49, 0.12);
+            color: #694f08;
+            font-weight: 700;
+        }
+
+        .card,
+        .service-card,
+        .news-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card h3,
+        .news-card h3 {
+            margin-bottom: 0.8rem;
+            color: var(--brand);
+            font-size: 1.08rem;
+        }
+
+        .service-card p,
+        .card p,
+        .news-card p,
+        .news-card time {
+            color: var(--muted);
+        }
+
+        .grid-2,
+        .grid-3 {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .symbol-card {
+            border-radius: 26px;
+            overflow: hidden;
+        }
+
+        .symbol-card img {
+            border-bottom: 1px solid var(--border);
+            border-radius: 26px 26px 0 0;
+            max-height: 240px;
+            object-fit: cover;
+        }
+
+        .symbol-card .card-body {
+            padding: 1.6rem;
+        }
+
+        .news-list {
+            display: grid;
+            gap: 1.4rem;
+        }
+
+        .news-card time {
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            font-size: 0.92rem;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 16px;
+            outline: none;
+        }
+
+        .footer {
+            padding: 2rem 1.5rem 3rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .footer a {
+            color: var(--brand);
+        }
+
+        @media (max-width: 980px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid,
+            .service-grid,
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            main {
+                padding: 1.5rem 1rem 2rem;
+            }
+
+            .hero h2 {
+                font-size: 2.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a class="brand" href="index.html">
+                <div class="brand-mark">JC</div>
+                <div class="brand-label">
+                    <h1>Jetcity Government</h1>
+                    <p>Official Government Portal</p>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="#overview" class="active">Overview</a>
+                <a href="#government">Government</a>
+                <a href="#services">Services</a>
+                <a href="#missions">Missions</a>
+                <a href="#news">News</a>
+                <a href="auth.html">Citizen Portal</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div>
+                <span class="eyebrow">Official State Portal</span>
+                <h2>Jetcity is the official government of the Jetcity micronation.</h2>
+                <p>The government of Jetcity provides authoritative information on national symbols, public services, diplomatic relations, and citizen resources.</p>
+                <div class="hero-actions">
+                    <a class="button-link" href="auth.html">Access Citizen Portal</a>
+                    <a class="button-link secondary" href="#services">Explore Services</a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Founded</h3>
+                        <p>2025</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Capital</h3>
+                        <p>Aerohaven</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Language</h3>
+                        <p>Jetzon</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-card">
+                <h3>Government at a Glance</h3>
+                <p>Jetcity operates with a clear separation of executive, legislative, and judicial authority. The state advances civic participation, economic innovation, and international outreach.</p>
+                <div>
+                    <p><strong>Currency:</strong> JCH</p>
+                    <p><strong>National Day:</strong> October 21</p>
+                    <p><strong>Population:</strong> 11</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="user-dashboard" id="userDashboard">
+            <h2>Welcome back, <span id="userNameDisplay">Citizen</span></h2>
+            <p>Your personalized citizen portal for Jetcity government services.</p>
+
+            <div class="user-info">
+                <div>
+                    <h3>Account Information</h3>
+                    <p><strong>Name:</strong> <span id="userFullName"></span></p>
+                    <p><strong>Email:</strong> <span id="userEmailDisplay"></span></p>
+                    <p><strong>Citizen ID:</strong> <span id="userIdDisplay"></span></p>
+                </div>
+                <div>
+                    <h3>Account Status</h3>
+                    <p><strong>Provider:</strong> <span id="userProvider"></span></p>
+                    <p><strong>Member Since:</strong> <span id="userSince">2025</span></p>
+                    <p><strong>Status:</strong> <span style="color: #28a745;">Active Citizen</span></p>
+                </div>
+            </div>
+
+            <div class="user-actions">
+                <button onclick="window.location.href='index2.html'">Explore Jetzon Language</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </section>
+
+        <section id="overview">
+            <div class="section-heading">
+                <div>
+                    <h2>About Jetcity</h2>
+                    <p>Official information from the government of Jetcity.</p>
+                </div>
+                <span class="badge">Confirmed by the State</span>
+            </div>
+            <div class="card">
+                <p>Jetcity is an officially recognized micronation, founded to represent a sovereign community with its own laws, national symbols, and government services. This website is the central portal for citizens and international visitors seeking official information.</p>
+            </div>
+        </section>
+
+        <section id="government">
+            <div class="section-heading">
+                <div>
+                    <h2>Government Structure</h2>
+                    <p>The nation is organized across three branches to ensure accountability and balance.</p>
+                </div>
+            </div>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Executive Branch</h3>
+                    <p>Led by the President and Vice President, the executive branch implements policy, manages administration, and represents Jetcity abroad.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Legislature</h3>
+                    <p>The legislative body develops laws, oversees the national budget, and advances public policy in consultation with the citizenry.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Judiciary</h3>
+                    <p>The judiciary safeguards constitutional rights, resolves disputes, and ensures that government actions comply with the rule of law.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="section-heading">
+                <div>
+                    <h2>Citizen Services</h2>
+                    <p>Explore the core services provided by the government.</p>
+                </div>
+            </div>
+            <div class="service-grid">
+                <div class="service-card">
+                    <h3>Identity & Citizenship</h3>
+                    <p>Guidance on national membership, citizenship information, and official records.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Passport & Travel</h3>
+                    <p>Information about passport issuance, visa support, and international representation.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Public Communications</h3>
+                    <p>Official announcements, updates, and government media channels for citizens and partners.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="missions">
+            <div class="section-heading">
+                <div>
+                    <h2>Diplomatic Missions</h2>
+                    <p>Official contact points for the government of Jetcity.</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="service-card">
+                    <h3>Main Embassy</h3>
+                    <p><strong>Location:</strong> Jeddah, Saudi Arabia</p>
+                    <p><strong>Contact:</strong> sultaneshky02@gmail.com</p>
+                    <p><strong>Ambassador:</strong> Embassy of Jetcity</p>
+                </div>
+                <div class="service-card">
+                    <h3>Regional Office</h3>
+                    <p><strong>Location:</strong> Jeddah, Saudi Arabia</p>
+                    <p><strong>Contact:</strong> sultaneshky02@gmail.com</p>
+                    <p><strong>Director:</strong> Passport and Public Affairs</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="anthem">
+            <div class="section-heading">
+                <div>
+                    <h2>National Symbols</h2>
+                    <p>The flag and anthem design reflect Jetcity's national values.</p>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="symbol-card">
+                    <img src="flag.png" alt="National flag of Jetcity">
+                    <div class="card-body">
+                        <h3>National Flag</h3>
+                        <p>The Jetcity flag features a golden crescent and bird set against a green field. It represents faith, freedom, and the nation’s aspiration for unity and progress.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <h3>National Anthem</h3>
+                    <p>The anthem was composed in 2025 and is the official musical expression of Jetcity's ideals and civic unity.</p>
+                    <audio controls>
+                        <source src="Jetcity_Official_Antthem.mp3.MP3" type="audio/mpeg">
+                        Your browser does not support audio playback.
+                    </audio>
+                </div>
+            </div>
+        </section>
+
+        <section id="news">
+            <div class="section-heading">
+                <div>
+                    <h2>Latest Announcements</h2>
+                    <p>Official updates from the Government of Jetcity.</p>
+                </div>
+                <span class="badge">Updated May 9, 2026</span>
+            </div>
+            <div class="news-list">
+                <div class="news-card">
+                    <time datetime="2026-05-09">May 9, 2026</time>
+                    <h3>Updated official government portal launched</h3>
+                    <p>The Jetcity government portal has been refreshed with a modern, official presentation for citizens, partners, and international observers.</p>
+                </div>
+                <div class="news-card">
+                    <time datetime="2026-05-08">May 8, 2026</time>
+                    <h3>Public communications advisory published</h3>
+                    <p>Jetcity leadership continues to develop new cultural programs and will release official event guidance soon.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Government of Jetcity. All rights reserved.</p>
+        <p>Official website of the Jetcity micronation | <a href="mailto:contact@jetcity.example.com">contact@jetcity.example.com</a></p>
+    </footer>
+
+    <script>
+        function getStoredAuthToken() {
+            return localStorage.getItem('jetcityUserToken') || sessionStorage.getItem('jetcityUserToken');
+        }
+
+        function getStoredUserData() {
+            return JSON.parse(localStorage.getItem('jetcityUserData') || sessionStorage.getItem('jetcityUserData') || 'null');
+        }
+
+        function checkAuthentication() {
+            const userToken = getStoredAuthToken();
+            const userData = getStoredUserData();
+            if (!userToken || !userData) {
+                window.location.href = 'auth.html';
+                return false;
+            }
+            showUserDashboard(userData);
+            return true;
+        }
+
+        function showUserDashboard(userData) {
+            document.getElementById('userDashboard').style.display = 'block';
+            document.getElementById('userNameDisplay').textContent = userData.name || 'Citizen';
+            document.getElementById('userFullName').textContent = userData.name || 'Unknown';
+            document.getElementById('userEmailDisplay').textContent = userData.email || 'N/A';
+            document.getElementById('userIdDisplay').textContent = userData.id || 'N/A';
+            document.getElementById('userProvider').textContent = userData.provider || 'Email';
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('jetcityUserToken');
+                localStorage.removeItem('jetcityUserData');
+                sessionStorage.removeItem('jetcityUserToken');
+                sessionStorage.removeItem('jetcityUserData');
+                window.location.href = 'auth.html';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAuthentication();
+        });
+    </script>
+</body>
+</html>

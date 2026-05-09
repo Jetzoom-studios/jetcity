@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="flag.png">
+    <title>Jetzon Language | Jetcity</title>
+    <style>
+        :root {
+            --background: #f0f4fb;
+            --surface: #ffffff;
+            --text: #102a43;
+            --muted: #5d6f8f;
+            --brand: #1d3b78;
+            --border: rgba(16, 42, 67, 0.12);
+            --radius: 24px;
+            --shadow: 0 20px 48px rgba(16, 42, 67, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #f6f9ff 0%, var(--background) 100%);
+            color: var(--text);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 1.5rem;
+        }
+
+        .page-shell {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.75rem;
+        }
+
+        .topbar h1 {
+            font-size: 1.45rem;
+            letter-spacing: 0.05em;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            margin-top: 0.45rem;
+            max-width: 34rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            background: rgba(29, 59, 120, 0.08);
+            color: var(--brand);
+            padding: 0.75rem 1rem;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            transition: background 0.2s ease;
+        }
+
+        nav a:hover {
+            background: rgba(29, 59, 120, 0.16);
+        }
+
+        .content-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+
+        .panel {
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            background: #f8fbfe;
+            padding: 1.5rem;
+            box-shadow: 0 14px 40px rgba(16, 42, 67, 0.06);
+        }
+
+        .panel h2 {
+            margin-bottom: 1rem;
+            color: var(--brand);
+            font-size: 1.2rem;
+        }
+
+        .panel p {
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .grid { display: grid; gap: 1.5rem; }
+        .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+        .letter-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .letter-card h3 {
+            margin-bottom: 0.85rem;
+            color: var(--brand);
+        }
+
+        .letter-card p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .letter-card img {
+            border-radius: 18px;
+            margin-top: 1rem;
+            max-height: 180px;
+            object-fit: cover;
+        }
+
+        .letter-card audio {
+            width: 100%;
+            margin-top: 1rem;
+            border-radius: 16px;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: var(--brand);
+        }
+
+        @media (max-width: 900px) {
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            .topbar { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-shell">
+        <div class="topbar">
+            <div>
+                <h1>Jetzon Language Resources</h1>
+                <p>Official language page for Jetcity citizens and visitors. Discover the alphabet, pronunciation, and cultural context for the Jetzon language.</p>
+            </div>
+            <nav>
+                <a href="index.html">Government Portal</a>
+                <a href="auth.html">Citizen Portal</a>
+            </nav>
+        </div>
+
+        <div class="content-card">
+            <div class="panel">
+                <h2>Official Alphabet</h2>
+                <p>The Jetzon alphabet is available for study and pronunciation practice. Each letter is paired with an official audio sample and a reference image.</p>
+            </div>
+
+            <div id="alphabet" class="grid grid-3" style="margin-top:1.5rem;"></div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Government of Jetcity | Official Language Resource</p>
+        </footer>
+    </div>
+
+    <script>
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const letterImages = {
+            A: 'jetzon_images/Screenshot 2026-03-18 091807.png',
+            B: 'jetzon_images/image.png',
+            C: 'jetzon_images/Screenshot 2026-03-18 144645.png',
+            D: 'jetzon_images/Screenshot 2026-03-18 145211.png',
+            E: 'jetzon_images/Screenshot 2026-03-18 145556.png',
+            F: 'jetzon_images/Screenshot 2026-03-18 153106.png',
+            G: 'jetzon_images/Screenshot 2026-03-18 153345.png',
+            H: 'jetzon_images/Screenshot 2026-03-18 153630.png',
+            I: 'jetzon_images/Screenshot 2026-03-18 153936.png',
+            J: 'jetzon_images/Screenshot 2026-03-18 154544.png',
+            K: 'jetzon_images/Screenshot 2026-03-18 154822.png',
+            L: 'jetzon_images/Screenshot 2026-03-18 155044.png',
+            M: 'jetzon_images/Screenshot 2026-03-18 155236.png',
+            N: 'jetzon_images/Screenshot 2026-03-18 155405.png',
+            O: 'jetzon_images/Screenshot 2026-03-18 155539.png',
+            P: 'jetzon_images/Screenshot 2026-03-18 155954.png',
+            Q: 'jetzon_images/Screenshot 2026-03-18 160204.png',
+            R: 'jetzon_images/Screenshot 2026-03-18 160342.png',
+            S: 'jetzon_images/Screenshot 2026-03-18 160540.png',
+            T: 'jetzon_images/Screenshot 2026-03-18 160722.png',
+            U: 'jetzon_images/Screenshot 2026-03-18 161041.png',
+            V: 'jetzon_images/Screenshot 2026-03-18 161347.png'
+        };
+
+        const letterAudios = {
+            A: 'jetzon_audio/A.wav',
+            B: 'jetzon_audio/output (9).wav'
+        };
+
+        const alphabetDiv = document.getElementById('alphabet');
+
+        letters.forEach(letter => {
+            const card = document.createElement('article');
+            card.className = 'letter-card';
+            const imageSrc = letterImages[letter] || `jetzon_images/${letter}.png`;
+            const audioSrc = letterAudios[letter] || `jetzon_audio/${letter}.mp3`;
+
+            card.innerHTML = `
+                <h3>Letter ${letter}</h3>
+                <p>Official Jetzon letter representation and pronunciation.</p>
+                <img src="${imageSrc}" alt="Jetzon image for ${letter}" onerror="this.style.display='none'">
+                <audio controls src="${audioSrc}"></audio>
+            `;
+
+            alphabetDiv.appendChild(card);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="flag.png">
+    <title>Jetcity | Citizen Sign-In</title>
+    <style>
+        :root {
+            --bg: #f5f8fe;
+            --surface: #ffffff;
+            --text: #0f213b;
+            --muted: #6b7a99;
+            --brand: #1d3b78;
+            --accent: #c49b31;
+            --border: rgba(16, 42, 67, 0.12);
+            --radius: 24px;
+            --shadow: 0 22px 60px rgba(16, 42, 67, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, rgba(29, 59, 120, 0.12), transparent 26%), var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .container {
+            width: min(560px, 100%);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .hero-panel {
+            padding: 2rem 2rem 1.75rem;
+            background: linear-gradient(180deg, #f5f8fe 0%, #ffffff 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-panel h1 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-panel p {
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: 0.45rem 0.85rem;
+            margin-top: 1rem;
+            border-radius: 999px;
+            background: rgba(196, 155, 49, 0.12);
+            color: #694f08;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .button-primary,
+        .button-secondary {
+            width: 100%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 999px;
+            border: none;
+            padding: 0.95rem 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .button-primary {
+            background: var(--brand);
+            color: #fff;
+        }
+
+        .button-secondary {
+            background: #fff;
+            color: var(--brand);
+            border: 1px solid rgba(29, 59, 120, 0.15);
+        }
+
+        .button-primary:hover,
+        .button-secondary:hover {
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-align: center;
+            margin: 1.75rem 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .field-group {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .field-group input {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 0.95rem 1rem;
+            font-size: 1rem;
+            color: var(--text);
+            background: #f8fbfe;
+        }
+
+        .field-group input:focus {
+            outline: 2px solid rgba(29, 59, 120, 0.18);
+            outline-offset: 2px;
+        }
+
+        .helper-text,
+        .privacy-notice {
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .message {
+            padding: 1rem 1rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .message.error {
+            background: #fff1f0;
+            color: #b42318;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            background: #ecfdf5;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 560px) {
+            .hero-panel,
+            .content {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-panel">
+            <h1>Citizen Sign-In</h1>
+            <p>Welcome to the official Jetcity government portal. Sign in to access citizen services, records, and secure resources.</p>
+            <span class="badge">Secure Government Access</span>
+        </div>
+
+        <div class="content">
+            <div id="errorMessage" class="message error"></div>
+            <div id="successMessage" class="message success"></div>
+            <div id="pageStatus" class="message"></div>
+
+            <div id="mainScreen">
+                <button class="button-primary" onclick="startGoogleSignIn()">
+                    Sign in with Google
+                </button>
+
+                <div class="divider"><span>or continue with email</span></div>
+
+                <div class="field-group">
+                    <input type="email" id="emailInput" placeholder="Enter your email address" autocomplete="email">
+                    <button class="button-secondary" onclick="checkEmailAndProceed()">Continue</button>
+                </div>
+
+                <p class="privacy-notice">By signing in, you agree to Jetcity’s Terms of Service and Privacy Policy.</p>
+            </div>
+
+            <div id="emailVerificationScreen" class="hidden">
+                <h2 style="margin-bottom: 1rem; color: var(--text);">Account Access</h2>
+                <div id="accountStatus" class="message"></div>
+                <div id="rememberMeSection" class="field-group hidden">
+                    <label style="display:flex; align-items:center; gap:0.6rem; color: var(--text); font-weight: 600;">
+                        <input type="checkbox" id="rememberMeCheckbox" style="width:16px; height:16px;">
+                        Keep me signed in on this device
+                    </label>
+                </div>
+
+                <div class="field-group" id="passwordGroup">
+                    <input type="password" id="passwordInput" placeholder="Enter your password" autocomplete="current-password">
+                    <button class="button-primary" onclick="loginWithPassword()">Login</button>
+                </div>
+
+                <div class="field-group hidden" id="newAccountSection">
+                    <input type="text" id="fullNameInput" placeholder="Full Name" autocomplete="name">
+                    <input type="password" id="newPasswordInput" placeholder="Create a password" autocomplete="new-password">
+                    <input type="password" id="confirmPasswordInput" placeholder="Confirm your password" autocomplete="new-password">
+                    <button class="button-primary" onclick="createNewAccount()">Create Account</button>
+                </div>
+
+                <button class="button-secondary" onclick="goBackToMainScreen()">Back to sign in</button>
+            </div>
+
+            <div id="alreadyLoggedInScreen" class="hidden">
+                <div class="field-group">
+                    <h2>You are already signed in</h2>
+                    <p class="privacy-notice">Your session is active. Continue to the citizen portal or sign out to switch accounts.</p>
+                    <button class="button-primary" onclick="window.location.href='index.html'">Continue to Portal</button>
+                    <button class="button-secondary" onclick="logout()">Sign out</button>
+                </div>
+            </div>
+
+            <div id="loadingSpinner" class="message hidden" style="background: transparent; border:none; color: var(--muted); display: flex; align-items: center; gap: 0.75rem; justify-content: center;">
+                <span style="width:18px; height:18px; border:3px solid rgba(29, 59, 120, 0.18); border-top-color: var(--brand); border-radius:50%; animation: spin 1s linear infinite;"></span>
+                <span>Processing...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getStoredAuthToken() {
+            return localStorage.getItem('jetcityUserToken') || sessionStorage.getItem('jetcityUserToken');
+        }
+
+        function getStoredUserData() {
+            return JSON.parse(localStorage.getItem('jetcityUserData') || sessionStorage.getItem('jetcityUserData') || 'null');
+        }
+
+        function logout() {
+            localStorage.removeItem('jetcityUserToken');
+            localStorage.removeItem('jetcityUserData');
+            sessionStorage.removeItem('jetcityUserToken');
+            sessionStorage.removeItem('jetcityUserData');
+            window.location.href = 'auth.html';
+        }
+
+        function checkAuthState() {
+            const userToken = getStoredAuthToken();
+            const userData = getStoredUserData();
+            if (userToken && userData) {
+                toggleVisibility('mainScreen', false);
+                toggleVisibility('emailVerificationScreen', false);
+                toggleVisibility('alreadyLoggedInScreen', true);
+                document.getElementById('pageStatus').className = 'message success';
+                document.getElementById('pageStatus').textContent = 'You are already signed in. Continue to the portal or sign out.';
+                document.getElementById('pageStatus').style.display = 'block';
+                return true;
+            }
+            return false;
+        }
+
+        function getAllAccounts() {
+            const accounts = localStorage.getItem('jetcityAccounts');
+            return accounts ? JSON.parse(accounts) : {};
+        }
+
+        function saveAccounts(accounts) {
+            localStorage.setItem('jetcityAccounts', JSON.stringify(accounts));
+        }
+
+        function showMessage(message, type = 'error') {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            if (type === 'error') {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                successDiv.style.display = 'none';
+            } else {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+            }
+        }
+
+        function showAccountStatus(message, type = 'exists') {
+            const statusDiv = document.getElementById('accountStatus');
+            statusDiv.textContent = message;
+            statusDiv.className = type === 'new' ? 'message success' : 'message';
+            statusDiv.style.display = 'block';
+        }
+
+        function toggleVisibility(id, visible) {
+            document.getElementById(id).classList.toggle('hidden', !visible);
+        }
+
+        function toggleLoading(show) {
+            document.getElementById('loadingSpinner').classList.toggle('hidden', !show);
+        }
+
+        function goBackToMainScreen() {
+            toggleVisibility('mainScreen', true);
+            toggleVisibility('emailVerificationScreen', false);
+            toggleVisibility('alreadyLoggedInScreen', false);
+            toggleVisibility('loadingSpinner', false);
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('accountStatus').style.display = 'none';
+            toggleVisibility('rememberMeSection', false);
+            toggleVisibility('newAccountSection', false);
+            document.getElementById('passwordGroup').style.display = 'grid';
+            document.getElementById('fullNameInput').value = '';
+            document.getElementById('newPasswordInput').value = '';
+            document.getElementById('confirmPasswordInput').value = '';
+            document.getElementById('emailInput').focus();
+        }
+
+        function checkEmailAndProceed() {
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email || !email.includes('@')) {
+                showMessage('Please enter a valid email address.');
+                return;
+            }
+
+            const accounts = getAllAccounts();
+            const accountExists = accounts[email.toLowerCase()] !== undefined;
+
+            toggleVisibility('mainScreen', false);
+            toggleVisibility('emailVerificationScreen', true);
+            toggleVisibility('rememberMeSection', true);
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+
+            if (accountExists) {
+                showAccountStatus('Account found. Please login with your password.', 'exists');
+                toggleVisibility('newAccountSection', false);
+                document.getElementById('passwordGroup').style.display = 'grid';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
+            } else {
+                showAccountStatus('No account found. Create a new one below.', 'new');
+                toggleVisibility('newAccountSection', true);
+                document.getElementById('passwordGroup').style.display = 'none';
+                document.getElementById('fullNameInput').value = '';
+                document.getElementById('newPasswordInput').value = '';
+                document.getElementById('confirmPasswordInput').value = '';
+                document.getElementById('newPasswordInput').focus();
+            }
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            return Array.from(new Uint8Array(hashBuffer)).map(byte => byte.toString(16).padStart(2, '0')).join('');
+        }
+
+        function saveSession(userData, remember) {
+            const token = 'token_' + Math.random().toString(36).substr(2, 9);
+            const destination = remember ? localStorage : sessionStorage;
+            const other = remember ? sessionStorage : localStorage;
+            other.removeItem('jetcityUserToken');
+            other.removeItem('jetcityUserData');
+            destination.setItem('jetcityUserToken', token);
+            destination.setItem('jetcityUserData', JSON.stringify(userData));
+        }
+
+        async function loginWithPassword() {
+            const email = document.getElementById('emailInput').value.trim().toLowerCase();
+            const password = document.getElementById('passwordInput').value;
+            const remember = document.getElementById('rememberMeCheckbox').checked;
+
+            if (!password) {
+                showMessage('Please enter your password.');
+                return;
+            }
+
+            toggleLoading(true);
+            const hashedPassword = await hashPassword(password);
+            setTimeout(() => {
+                const accounts = getAllAccounts();
+                const account = accounts[email];
+                if (account && account.password === hashedPassword) {
+                    const userData = {
+                        id: account.id,
+                        email: email,
+                        name: account.name || email.split('@')[0],
+                        provider: 'email'
+                    };
+                    saveSession(userData, remember);
+                    showMessage('Login successful. Redirecting...', 'success');
+                    toggleLoading(false);
+                    setTimeout(() => window.location.href = 'index.html', 900);
+                } else {
+                    toggleLoading(false);
+                    showMessage('Incorrect password. Please try again.');
+                }
+            }, 800);
+        }
+
+        async function createNewAccount() {
+            const email = document.getElementById('emailInput').value.trim().toLowerCase();
+            const fullName = document.getElementById('fullNameInput').value.trim();
+            const password = document.getElementById('newPasswordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            const remember = document.getElementById('rememberMeCheckbox').checked;
+
+            if (!fullName) {
+                showMessage('Please enter your full name.');
+                return;
+            }
+
+            if (!password || password.length < 6) {
+                showMessage('Password must be at least 6 characters long.');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.');
+                return;
+            }
+
+            toggleLoading(true);
+            const hashedPassword = await hashPassword(password);
+            setTimeout(() => {
+                const accounts = getAllAccounts();
+                if (accounts[email]) {
+                    toggleLoading(false);
+                    showMessage('This account already exists. Please login instead.');
+                    return;
+                }
+
+                accounts[email] = {
+                    id: 'email_' + Math.random().toString(36).substr(2, 9),
+                    email: email,
+                    name: fullName,
+                    password: hashedPassword,
+                    createdAt: new Date().toISOString()
+                };
+                saveAccounts(accounts);
+                const userData = {
+                    id: accounts[email].id,
+                    email: email,
+                    name: fullName,
+                    provider: 'email'
+                };
+                saveSession(userData, remember);
+                showMessage('Account created. Redirecting...', 'success');
+                toggleLoading(false);
+                setTimeout(() => window.location.href = 'index.html', 900);
+            }, 900);
+        }
+
+        function startGoogleSignIn() {
+            toggleLoading(true);
+            setTimeout(() => {
+                const mockEmail = 'citizen_' + Math.random().toString(36).substr(2, 9) + '@jetcity.gov';
+                const mockUser = {
+                    id: 'google_' + Math.random().toString(36).substr(2, 9),
+                    email: mockEmail,
+                    name: 'Jetcity Citizen',
+                    provider: 'google'
+                };
+                localStorage.setItem('jetcityUserToken', 'token_' + Math.random().toString(36).substr(2, 9));
+                localStorage.setItem('jetcityUserData', JSON.stringify(mockUser));
+                showMessage('Signed in successfully. Redirecting...', 'success');
+                toggleLoading(false);
+                setTimeout(() => window.location.href = 'index.html', 900);
+            }, 1100);
+        }
+
+        checkAuthState();
+    </script>
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>
